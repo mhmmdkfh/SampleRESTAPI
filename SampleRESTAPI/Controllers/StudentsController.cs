@@ -48,6 +48,19 @@ namespace SampleRESTAPI.Controllers
             }
         }
 
-       
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id,[FromBody] Student student)
+        {
+            try
+            {
+                var result = await _student.Update(id.ToString(), student);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

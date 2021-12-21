@@ -52,9 +52,22 @@ namespace SampleRESTAPI.Data
             }
         }
 
-        public Task<Student> Update(string id, Student obj)
+        public async Task<Student> Update(string id, Student obj)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await GetById(id);
+                result.FirstName = obj.FirstName;
+                result.LastName = obj.LastName;
+                result.EnrollmentDate=obj.EnrollmentDate;
+                await _db.SaveChangesAsync();
+                obj.ID = Convert.ToInt32(id);
+                return obj;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception($"Error: {dbEx.Message}");
+            }
         }
     }
 }
