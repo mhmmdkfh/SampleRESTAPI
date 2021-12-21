@@ -40,8 +40,8 @@ namespace SampleRESTAPI.Controllers
         }
 
         [HttpGet("byname")]
-        public List<Student> Get(string firstname,string lastname)
-        {
+        public List<Student> Get(string firstname="",string lastname="")
+        { 
             var results = lstStudent.Where(s => s.FirstName.StartsWith(firstname) && 
             s.LastName.StartsWith(lastname)).ToList();
             /*var results = (from s in lstStudent where s.FirstName.ToLower()
@@ -49,5 +49,7 @@ namespace SampleRESTAPI.Controllers
                           select s).ToList();*/
             return results;
         }
+
+        //https://github.com/ekurniawan/SampleRESTAPI-2021
     }
 }
