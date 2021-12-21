@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SampleRESTAPI.Data;
 using SampleRESTAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SampleRESTAPI.Controllers
 {
@@ -11,45 +13,41 @@ namespace SampleRESTAPI.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-
-        private List<Student> lstStudent = new List<Student>
+        private IStudent _student;
+        public StudentsController(IStudent student)
         {
-            new Student { ID=1,FirstName="Agus",LastName="Kurniawan",
-                EnrollmentDate=DateTime.Now},
-            new Student { ID=2,FirstName="Erick",LastName="Kurniawan",
-                EnrollmentDate=DateTime.Now},
-            new Student { ID=1,FirstName="Agus",LastName="Aja",
-                EnrollmentDate=DateTime.Now}
-        };
+            _student = student;
+        }
+       
 
         [HttpGet]
-        public List<Student> Get()
+        public async Task<IEnumerable<Student>> Get()
         {
-            return lstStudent;
-        }
-
-        [HttpGet("{id}")]
-        public Student Get(int id)
-        {
-            //var result = lstStudent.Where(s => s.ID == id).SingleOrDefault();
-            var result = (from s in lstStudent select s).SingleOrDefault();
-            if (result != null)
-                return result;
-            else
-                return new Student { };
-        }
-
-        [HttpGet("byname")]
-        public List<Student> Get(string firstname="",string lastname="")
-        { 
-            var results = lstStudent.Where(s => s.FirstName.StartsWith(firstname) && 
-            s.LastName.StartsWith(lastname)).ToList();
-            /*var results = (from s in lstStudent where s.FirstName.ToLower()
-                           .StartsWith(firstname.ToLower())
-                          select s).ToList();*/
+            var results = await _student.GetAll();
             return results;
         }
 
-        //https://github.com/ekurniawan/SampleRESTAPI-2021
+        [HttpGet("{id}")]
+        public async Task<Student> Get(int id)
+        {
+            var result = await _student.GetById(id.ToString());
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Student student)
+        {
+            try
+            {
+                var result = await _student.Insert(student);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+       
     }
 }
