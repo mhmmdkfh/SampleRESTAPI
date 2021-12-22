@@ -20,7 +20,8 @@ namespace SampleRESTAPI.Data
 
         public async Task<IEnumerable<Enrollment>> GetAll()
         {
-            var results = await _db.Enrollments.Include(e=>e.Student).AsNoTracking().ToListAsync();
+            var results = await _db.Enrollments.Include(e=>e.Student)
+                .Include(e=>e.Course).AsNoTracking().ToListAsync();
             return results;
         }
 
