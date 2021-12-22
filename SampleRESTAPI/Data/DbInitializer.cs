@@ -24,10 +24,12 @@ namespace SampleRESTAPI.Data
                 new Student{FirstName="Bruce",LastName="Banner",EnrollmentDate=DateTime.Parse("2021-12-12")},
             };
 
-            foreach(var s in students)
+            foreach (var s in students)
             {
                 context.Students.Add(s);
             }
+
+            context.SaveChanges();
 
             var courses = new Course[]
             {
@@ -38,12 +40,31 @@ namespace SampleRESTAPI.Data
                 new Course{Title="Entity Frmework Core",Credits=3}
             };
 
-            foreach(var c in courses)
+            foreach (var c in courses)
             {
                 context.Courses.Add(c);
             }
 
+            context.SaveChanges();
 
+            var enrollments = new Enrollment[]
+            {
+                new Enrollment{StudentID=1,CourseID=1,Grade=Grade.A},
+                new Enrollment{StudentID=1,CourseID=2,Grade=Grade.B},
+                new Enrollment{StudentID=1,CourseID=3,Grade=Grade.C},
+                new Enrollment{StudentID=2,CourseID=1,Grade=Grade.C},
+                new Enrollment{StudentID=2,CourseID=2,Grade=Grade.C},
+                new Enrollment{StudentID=2,CourseID=3,Grade=Grade.C},
+                new Enrollment{StudentID=3,CourseID=1,Grade=Grade.A},
+                new Enrollment{StudentID=3,CourseID=2,Grade=Grade.B},
+                new Enrollment{StudentID=3,CourseID=3,Grade=Grade.C},
+            };
+
+            foreach(var e in enrollments)
+            {
+                context.Enrollments.Add(e);
+            }
+            context.SaveChanges();
         }
     }
 }
