@@ -12,6 +12,7 @@ using SampleRESTAPI.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SampleRESTAPI
@@ -34,8 +35,12 @@ namespace SampleRESTAPI
 
             services.AddScoped<IStudent, StudentDAL>();
             services.AddScoped<ICourse, CourseDAL>();
+            services.AddScoped<IEnrollment, EnrollmentDAL>();
 
-            services.AddControllers().AddXmlDataContractSerializerFormatters();
+            //services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllers().AddNewtonsoftJson(options=>
+            options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SampleRESTAPI", Version = "v1" });
