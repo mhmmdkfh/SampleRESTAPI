@@ -57,7 +57,7 @@ namespace SampleRESTAPI.Migrations
 
                     b.HasKey("CourseID");
 
-                    b.ToTable("Course");
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("SampleRESTAPI.Models.Enrollment", b =>
@@ -82,7 +82,7 @@ namespace SampleRESTAPI.Migrations
 
                     b.HasIndex("StudentID");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("SampleRESTAPI.Models.Student", b =>

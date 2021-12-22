@@ -10,8 +10,8 @@ using SampleRESTAPI.Data;
 namespace SampleRESTAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211222025258_AddTableCourseAndEnrollment")]
-    partial class AddTableCourseAndEnrollment
+    [Migration("20211222043357_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,7 @@ namespace SampleRESTAPI.Migrations
 
                     b.HasKey("CourseID");
 
-                    b.ToTable("Course");
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("SampleRESTAPI.Models.Enrollment", b =>
@@ -84,7 +84,7 @@ namespace SampleRESTAPI.Migrations
 
                     b.HasIndex("StudentID");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("SampleRESTAPI.Models.Student", b =>
