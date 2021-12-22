@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SampleRESTAPI.Models
 {
@@ -8,5 +9,7 @@ namespace SampleRESTAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime EnrollmentDate { get; set; }
+
+        public ICollection<Enrollment> Enrollments { get; set; }
     }
 }
