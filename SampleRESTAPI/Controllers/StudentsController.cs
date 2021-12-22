@@ -62,5 +62,19 @@ namespace SampleRESTAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _student.Delete(id.ToString());
+                return Ok($"Data student {id} berhasil didelete");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
