@@ -15,10 +15,22 @@ namespace SampleRESTAPI.Data
             _db = db;
         }
 
-        public Task Delete(string id)
+        public async Task Delete(string id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await GetById(id);
+                if (result == null) throw new Exception($"data course {id} tidak ditemukan");
+                _db.Courses.Remove(result);
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception($"error: {dbEx.Message}");
+            }
+           
         }
+
 
         public async Task<IEnumerable<Course>> GetAll()
         {
@@ -61,9 +73,21 @@ namespace SampleRESTAPI.Data
             }
         }
 
-        public Task<Course> Update(string id, Course obj)
+        public async Task<Course> Update(string id, Course obj)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var result = await GetById(id);
+                if (result == null) throw new Exception($"data course id {id} tidak ditemukan");
+                result.Title = obj.Title;
+                result.Credits = obj.Credits;
+                await _db.SaveChangesAsync();
+                return result;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception(dbEx.Message);
+            }
         }
     }
 }

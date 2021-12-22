@@ -33,6 +33,7 @@ namespace SampleRESTAPI
             options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
             services.AddScoped<IStudent, StudentDAL>();
+            services.AddScoped<ICourse, CourseDAL>();
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();
             services.AddSwaggerGen(c =>
