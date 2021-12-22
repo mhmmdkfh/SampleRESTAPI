@@ -14,6 +14,10 @@ namespace SampleRESTAPI.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
 
-
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>().ToTable("Mahasiswa");
+        }*/
     }
 }
