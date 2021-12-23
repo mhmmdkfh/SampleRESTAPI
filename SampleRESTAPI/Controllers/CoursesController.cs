@@ -45,12 +45,14 @@ namespace SampleRESTAPI.Controllers
 
         // POST api/<CoursesController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Course course)
+        public async Task<ActionResult<CourseDto>> Post([FromBody] CourseForCreateDto courseForCreateDto)
         {
             try
             {
+                var course = _mapper.Map<Models.Course>(courseForCreateDto);
                 var result = await _course.Insert(course);
-                return Ok(result);  
+                var coursedto = _mapper.Map<Dtos.CourseDto>(result);
+                return Ok(coursedto);  
             }
             catch (Exception ex)
             {
@@ -60,12 +62,14 @@ namespace SampleRESTAPI.Controllers
 
         // PUT api/<CoursesController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Course course)
+        public async Task<ActionResult<CourseDto>> Put(int id, [FromBody] CourseForCreateDto courseToCreateDto)
         {
             try
             {
+                var course = _mapper.Map<Models.Course>(courseToCreateDto);
                 var result = await _course.Update(id.ToString(), course);
-                return Ok(result);
+                var coursedto = _mapper.Map<Dtos.CourseDto>(result);
+                return Ok(coursedto);
             }
             catch (Exception ex)
             {
