@@ -42,6 +42,8 @@ namespace SampleRESTAPI
             options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddXmlDataContractSerializerFormatters();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             
             services.AddSwaggerGen(c =>
             {
