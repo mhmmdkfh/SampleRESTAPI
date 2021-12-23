@@ -22,6 +22,8 @@ namespace SampleRESTAPI.Data
         {
             var results = await _db.Enrollments.Include(e=>e.Student)
                 .Include(e=>e.Course).AsNoTracking().ToListAsync();
+
+
             return results;
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SampleRESTAPI.Data;
+using SampleRESTAPI.Dtos;
 using SampleRESTAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,22 @@ namespace SampleRESTAPI.Controllers
        
 
         [HttpGet]
-        public async Task<IEnumerable<Student>> Get()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> Get()
         {
-            var results = await _student.GetAll();
-            return results;
+            var students = await _student.GetAll();
+
+            List<StudentDto> lstStudentDto = new List<StudentDto>();
+            foreach (var student in students)
+            {
+                lstStudentDto.Add(new StudentDto
+                {
+                    ID = student.ID,
+                    Name = $"{student.FirstName} {student.LastName}",
+                    EnrollmentDate = student.EnrollmentDate
+                });
+            }
+            
+            return lstStudentDto;
         }
 
         [HttpGet("{id}")]
