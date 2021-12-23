@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SampleRESTAPI.Data;
+using SampleRESTAPI.Dtos;
 using SampleRESTAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -14,26 +16,31 @@ namespace SampleRESTAPI.Controllers
     public class CoursesController : ControllerBase
     {
         private ICourse _course;
-        public CoursesController(ICourse course)
+        private IMapper _mapper;
+
+        public CoursesController(ICourse course, IMapper mapper)
         {
             _course = course;
+            _mapper = mapper;
         }
-
         // GET: api/<CoursesController>
        
         [HttpGet]
-        public async Task<IEnumerable<Course>> Get()
-        {
+        public async Task<ActionResult<IEnumerable<CourseDto>>> Get()
+        { 
             var results = await _course.GetAll();
-            return results;
+            return Ok(_mapper.Map<IEnumerable<CourseDto>>(results));
         }
 
         // GET api/<CoursesController>/5
         [HttpGet("{id}")]
-        public async Task<Course> Get(int id)
+        public async Task<ActionResult<CourseDto>> Get(int id)
         {
             var result = await _course.GetById(id.ToString());
-            return result;
+            if (result == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<CourseDto>(result));
         }
 
         // POST api/<CoursesController>

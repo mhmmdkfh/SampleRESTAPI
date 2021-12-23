@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SampleRESTAPI.Data;
 using SampleRESTAPI.Dtos;
@@ -15,9 +16,12 @@ namespace SampleRESTAPI.Controllers
     public class StudentsController : ControllerBase
     {
         private IStudent _student;
-        public StudentsController(IStudent student)
+        private IMapper _mapper;
+
+        public StudentsController(IStudent student,IMapper mapper)
         {
-            _student = student;
+            _student = student ?? throw new ArgumentNullException(nameof(student));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
        
 
@@ -26,7 +30,7 @@ namespace SampleRESTAPI.Controllers
         {
             var students = await _student.GetAll();
 
-            List<StudentDto> lstStudentDto = new List<StudentDto>();
+            /*List<StudentDto> lstStudentDto = new List<StudentDto>();
             foreach (var student in students)
             {
                 lstStudentDto.Add(new StudentDto
@@ -35,16 +39,20 @@ namespace SampleRESTAPI.Controllers
                     Name = $"{student.FirstName} {student.LastName}",
                     EnrollmentDate = student.EnrollmentDate
                 });
-            }
-            
-            return lstStudentDto;
+            }*/
+
+            var dtos = _mapper.Map<IEnumerable<StudentDto>>(students);
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<Student> Get(int id)
+        public async Task<ActionResult<StudentDto>> Get(int id)
         {
             var result = await _student.GetById(id.ToString());
-            return result;
+            if (result == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<StudentDto>(result));
         }
 
         [HttpPost]
