@@ -44,7 +44,7 @@ namespace SampleRESTAPI.Data
         {
             var result = await (from c in _db.Courses
                                 where c.CourseID == Convert.ToInt32(id)
-                                select c).AsNoTracking().SingleOrDefaultAsync();
+                                select c).SingleOrDefaultAsync();
             if (result == null) throw new Exception($"data id {id} tidak ditemukan");
             
             return result;

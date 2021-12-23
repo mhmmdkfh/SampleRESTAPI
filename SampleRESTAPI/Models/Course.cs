@@ -12,8 +12,9 @@ namespace SampleRESTAPI.Models
         
         //[Column("Judul")]
         //[MaxLength(255)]
+        [Required]
         public string Title { get; set; }
-
+        [Required]
         //[Column(TypeName ="decimal(5,2)")]
         public int Credits { get; set; }
 
